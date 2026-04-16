@@ -526,6 +526,36 @@ const CONFIG = {
 </div>
 
 <script>
+const API_URL = "https://script.google.com/macros/s/AKfycbxzSHIqzJJED92lcvLiiOeg1t08I7ypBvOeH4dRQqIWTk5BvswYFzPKztiQ4FoVGpDj/exec";
+
+async function carregarDados() {
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
+
+    console.log("Dados recebidos:", data);
+
+    const select = document.getElementById("jogadores");
+
+    // limpa antes de preencher
+    select.innerHTML = "";
+
+    data.jogadoresPro.forEach(j => {
+      let opt = document.createElement("option");
+      opt.value = j.ID_Jogador;
+      opt.textContent = j.Nome;
+      select.appendChild(opt);
+    });
+
+  } catch (erro) {
+    console.error("Erro real:", erro);
+    document.querySelector(".card").innerHTML += "<p style='color:red'>Erro ao conectar com API</p>";
+  }
+}
+
+carregarDados();
+
+<script>
 /* ──────────────────────────────────────────────
    STATE
 ────────────────────────────────────────────── */
