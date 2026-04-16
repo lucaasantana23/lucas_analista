@@ -377,7 +377,7 @@ const CONFIG = {
       <div class="club-cat" id="clubCat"></div>
     </div>
   </div>
-  <div class="header-badge" id="headerBadge">Relatório de Jogo</div>
+  <div class="header-badge" id="headerBadge">Ficha Técnica de Jogo</div>
 </header>
 
 <main id="mainContent">
@@ -521,7 +521,7 @@ const CONFIG = {
 
 <div class="submit-bar" id="submitBar">
   <button class="submit-btn" id="submitBtn" onclick="submitForm()">
-    Registrar Relatório de Jogo
+    Registrar Ficha Técnica de Jogo
   </button>
 </div>
 
@@ -547,7 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('clubCat').textContent   = CONFIG.categoria;
   document.getElementById('clubLogo').src          = CONFIG.logoBase64;
   document.getElementById('nomeAmericano').textContent = CONFIG.clube;
-  document.title = `Relatório de Jogo — ${CONFIG.clube}`;
+  document.title = `Ficha Técnica de Jogo — ${CONFIG.clube}`;
 
   document.documentElement.style.setProperty('--accent',  CONFIG.corPrimaria);
   document.documentElement.style.setProperty('--danger',  CONFIG.corPrimaria);
@@ -764,7 +764,7 @@ function resetForm() {
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = false;
-  btn.textContent = 'Registrar Relatório de Jogo';
+  btn.textContent = 'Registrar Ficha Técnica de Jogo';
 }
 </script>
 </body>
