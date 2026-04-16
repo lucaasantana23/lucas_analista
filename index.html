@@ -594,7 +594,70 @@ document.addEventListener('DOMContentLoaded', () => {
   buildStatusGrid();
 
   // Carrega atletas
-  carregarJogadores();
+
+  <script>
+
+const CONFIG = {
+  scriptURL: "https://script.google.com/macros/s/AKfycbxzSHIqzJJED92lcvLiiOeg1t08I7ypBvOeH4dRQqIWTk5BvswYFzPKztiQ4FoVGpDj/exec"
+};
+
+// ===============================
+// 🔥 CARREGAR JOGADORES
+// ===============================
+function carregarJogadores() {
+  const statusEl = document.getElementById('statusAPI');
+  statusEl.textContent = '⏳ Carregando atletas...';
+
+  fetch(CONFIG.scriptURL)
+    .then(res => res.text())
+    .then(text => {
+      const data = JSON.parse(text);
+
+      const select = document.getElementById('jogadores');
+      select.innerHTML = '<option value="">Selecione o atleta...</option>';
+
+      const lista = data.jogadoresPro || data;
+
+      lista.forEach(j => {
+        const opt = document.createElement('option');
+        opt.value = j.ID_Jogador || j.Nome;
+        opt.textContent = j.Nome;
+        select.appendChild(opt);
+      });
+
+      statusEl.textContent = '✅ Atletas carregados';
+    })
+    .catch(err => {
+      console.error(err);
+      statusEl.textContent = '❌ Erro ao conectar com API';
+    });
+}
+
+// ===============================
+// ⚽ PLACAR AUTOMÁTICO
+// ===============================
+function atualizarPlacar() {
+  const gm = parseInt(document.getElementById("golsMandante").value) || 0;
+  const gv = parseInt(document.getElementById("golsVisitante").value) || 0;
+
+  document.getElementById("placar").value = `${gm} x ${gv}`;
+
+  let resultado = "";
+  if (gm > gv) resultado = "Vitória";
+  else if (gm < gv) resultado = "Derrota";
+  else resultado = "Empate";
+
+  document.getElementById("resultado").value = resultado;
+}
+
+// eventos
+document.getElementById("golsMandante").addEventListener("input", atualizarPlacar);
+document.getElementById("golsVisitante").addEventListener("input", atualizarPlacar);
+
+// inicia
+carregarJogadores();
+
+</script>
 
   // Atualiza nome adversário ao digitar
   document.getElementById('adversario').addEventListener('input', () => {
