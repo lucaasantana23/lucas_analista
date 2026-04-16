@@ -1,173 +1,202 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.5">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  <meta charset="UTF-8">
+  <title>Relatório de Jogo - Americano FC</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #0f0f0f;
+      color: white;
+      padding: 20px;
+    }
+
+    h1 {
+      color: gold;
+      text-align: center;
+    }
+
+    h2 {
+      color: gold;
+    }
+
+    .card {
+      background: #1c1c1c;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 12px;
+      border: 1px solid #333;
+    }
+
+    input, select {
+      padding: 10px;
+      margin: 6px 0;
+      border-radius: 6px;
+      border: none;
+      width: 100%;
+      font-size: 14px;
+    }
+
+    label {
+      font-size: 13px;
+      color: #ccc;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #aaa;
+    }
   </style>
 </head>
+
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="pt-br"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Relatório de Jogo - Americano FC&lt;/title&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-family: Arial;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #0f0f0f;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>h1 {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: gold;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>h2 {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: gold;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.card {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #1c1c1c;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 15px 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid #333;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>input, select {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 6px 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 6px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>label {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 13px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #ccc;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.grid {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>grid-template-columns: repeat(2, 1fr);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.status {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 13px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #aaa;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;h1&gt;⚽ Relatório de Jogo - Americano FC&lt;/h1&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- PARTIDA --&gt;</p>
-<p class="p1">&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;h2&gt;📋 Informações da Partida&lt;/h2&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="grid"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;label&gt;ID Partida&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;input type="text" id="idPartida"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;label&gt;Data&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;input type="date" id="data"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;label&gt;Adversário&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;input type="text" id="adversario"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;label&gt;Placar&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;input type="text" id="placar"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ESCALAÇÃO --&gt;</p>
-<p class="p1">&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;h2&gt;👥 Escalação&lt;/h2&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;label&gt;Selecionar Jogador&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;select id="jogadores"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;Carregando...&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/select&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;label&gt;Status&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;select id="status"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;Titular&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;Reserva&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;Não Relacionado&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/select&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;label&gt;Minutos Jogados&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;input type="number" id="minutos"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;label&gt;Nota&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;input type="number" id="nota" min="0" max="10"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="status" id="statusAPI"&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;script&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">const API_URL = "https://script.google.com/macros/s/AKfycbxzSHIqzJJED92lcvLiiOeg1t08I7ypBvOeH4dRQqIWTk5BvswYFzPKztiQ4FoVGpDj/exec";</p>
-<p class="p2"><br></p>
-<p class="p1">async function carregarDados() {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const status = document.getElementById("statusAPI");</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const res = await fetch(API_URL);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const data = await res.json();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>console.log("DADOS:", data);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>const select = document.getElementById("jogadores");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>select.innerHTML = "";</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (!data.jogadoresPro) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>status.innerText = "⚠️ jogadoresPro não encontrado";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>data.jogadoresPro.forEach(j =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>let opt = document.createElement("option");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>opt.value = j.ID_Jogador;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>opt.textContent = j.Nome;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>select.appendChild(opt);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>status.innerText = "✅ Dados carregados com sucesso";</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>} catch (erro) {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>console.error(erro);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>status.innerText = "❌ Erro ao conectar com API";</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">carregarDados();</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;/script&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+<h1>⚽ Relatório de Jogo - Americano FC</h1>
+
+<!-- PARTIDA -->
+<div class="card">
+  <h2>📋 Informações da Partida</h2>
+
+  <div class="grid">
+
+    <div>
+      <label>ID Partida</label>
+      <input type="number" id="idPartida">
+    </div>
+
+    <div>
+      <label>Data</label>
+      <input type="date" id="data">
+    </div>
+
+    <div>
+      <label>Competição</label>
+      <input type="text" id="competicao">
+    </div>
+
+    <div>
+      <label>Fase</label>
+      <input type="text" id="fase">
+    </div>
+
+    <div>
+      <label>Local</label>
+      <select id="local">
+        <option>Casa</option>
+        <option>Fora</option>
+      </select>
+    </div>
+
+    <div>
+      <label>Adversário</label>
+      <input type="text" id="adversario">
+    </div>
+
+    <div>
+      <label>Mandante</label>
+      <input type="text" id="mandante" value="Americano FC">
+    </div>
+
+    <div>
+      <label>Visitante</label>
+      <input type="text" id="visitante">
+    </div>
+
+    <div>
+      <label>Gols Mandante</label>
+      <input type="number" id="golsMandante">
+    </div>
+
+    <div>
+      <label>Gols Visitante</label>
+      <input type="number" id="golsVisitante">
+    </div>
+
+    <div>
+      <label>Placar</label>
+      <input type="text" id="placar" readonly>
+    </div>
+
+    <div>
+      <label>Resultado</label>
+      <input type="text" id="resultado" readonly>
+    </div>
+
+  </div>
+</div>
+
+<!-- ESCALAÇÃO -->
+<div class="card">
+  <h2>👥 Escalação</h2>
+
+  <label>Selecionar Jogador</label>
+  <select id="jogadores">
+    <option>Carregando...</option>
+  </select>
+
+  <label>Status</label>
+  <select id="status">
+    <option>Titular</option>
+    <option>Reserva</option>
+    <option>Não Relacionado</option>
+  </select>
+
+  <label>Minutos Jogados</label>
+  <input type="number" id="minutos">
+
+  <label>Nota</label>
+  <input type="number" id="nota" min="0" max="10">
+
+  <div class="status" id="statusAPI"></div>
+</div>
+
+<script>
+
+const API_URL = "https://script.google.com/macros/s/AKfycbxzSHIqzJJED92lcvLiiOeg1t08I7ypBvOeH4dRQqIWTk5BvswYFzPKztiQ4FoVGpDj/exec";
+
+async function carregarDados() {
+  const status = document.getElementById("statusAPI");
+
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
+
+    console.log("DADOS:", data);
+
+    const select = document.getElementById("jogadores");
+    select.innerHTML = "";
+
+    if (!data.jogadoresPro) {
+      status.innerText = "⚠️ jogadoresPro não encontrado";
+      return;
+    }
+
+    data.jogadoresPro.forEach(j => {
+      let opt = document.createElement("option");
+      opt.value = j.ID_Jogador;
+      opt.textContent = j.Nome;
+      select.appendChild(opt);
+    });
+
+    status.innerText = "✅ Dados carregados com sucesso";
+
+  } catch (erro) {
+    console.error(erro);
+    status.innerText = "❌ Erro ao conectar com API";
+  }
+}
+
+carregarDados();
+
+</script>
+
 </body>
 </html>
