@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ficha Técnica de Jogo — Americano FC</title>
+<title>Relatório de Jogo — Americano FC</title>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
 <script>
@@ -264,7 +264,7 @@ const CONFIG = {
   .nota-scale .scale-btn[data-v="7"]  { background:#7ed957; color:#000; }
   .nota-scale .scale-btn[data-v="8"]  { background:#4CAF50; color:#fff; }
   .nota-scale .scale-btn[data-v="9"]  { background:#2e7d32; color:#fff; }
-  .nota-scale .scale-btn[data-v="10"] { background:#2e7d32; color:#fff; }
+  .nota-scale .scale-btn[data-v="10"] { background:#F5C000; color:#000; }
 
   .scale-value-display {
     text-align: center;
@@ -377,7 +377,7 @@ const CONFIG = {
       <div class="club-cat" id="clubCat"></div>
     </div>
   </div>
-  <div class="header-badge" id="headerBadge">Ficha Técnica de Jogo</div>
+  <div class="header-badge" id="headerBadge">Relatório de Jogo</div>
 </header>
 
 <main id="mainContent">
@@ -433,7 +433,6 @@ const CONFIG = {
             <option value="">Selecione...</option>
             <option value="Casa">Casa</option>
             <option value="Fora">Fora</option>
-            <option value="Neutro">Neutro</option>
           </select>
         </div>
         <div>
@@ -479,7 +478,7 @@ const CONFIG = {
         <div>
           <label class="field-label">Atleta</label>
           <select id="jogadores">
-            <option value="">https://docs.google.com/spreadsheets/d/1flRN8W7mMrypwGo_IGSOC4Lh9yEEJ9ZnToku3iJpGmk/edit?gid=1186618238#gid=1186618238...</option>
+            <option value="">Carregando...</option>
           </select>
         </div>
         <div>
@@ -521,39 +520,9 @@ const CONFIG = {
 
 <div class="submit-bar" id="submitBar">
   <button class="submit-btn" id="submitBtn" onclick="submitForm()">
-    Registrar Ficha Técnica de Jogo
+    Registrar Relatório de Jogo
   </button>
 </div>
-
-<script>
-const API_URL = "https://script.google.com/macros/s/AKfycbxzSHIqzJJED92lcvLiiOeg1t08I7ypBvOeH4dRQqIWTk5BvswYFzPKztiQ4FoVGpDj/exec";
-
-async function carregarDados() {
-  try {
-    const res = await fetch(API_URL);
-    const data = await res.json();
-
-    console.log("Dados recebidos:", data);
-
-    const select = document.getElementById("jogadores");
-
-    // limpa antes de preencher
-    select.innerHTML = "";
-
-    data.jogadoresPro.forEach(j => {
-      let opt = document.createElement("option");
-      opt.value = j.ID_Jogador;
-      opt.textContent = j.Nome;
-      select.appendChild(opt);
-    });
-
-  } catch (erro) {
-    console.error("Erro real:", erro);
-    document.querySelector(".card").innerHTML += "<p style='color:red'>Erro ao conectar com API</p>";
-  }
-}
-
-carregarDados();
 
 <script>
 /* ──────────────────────────────────────────────
@@ -577,7 +546,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('clubCat').textContent   = CONFIG.categoria;
   document.getElementById('clubLogo').src          = CONFIG.logoBase64;
   document.getElementById('nomeAmericano').textContent = CONFIG.clube;
-  document.title = `Ficha Técnica de Jogo — ${CONFIG.clube}`;
+  document.title = `Relatório de Jogo — ${CONFIG.clube}`;
 
   document.documentElement.style.setProperty('--accent',  CONFIG.corPrimaria);
   document.documentElement.style.setProperty('--danger',  CONFIG.corPrimaria);
@@ -594,70 +563,7 @@ document.addEventListener('DOMContentLoaded', () => {
   buildStatusGrid();
 
   // Carrega atletas
-
-  <script>
-
-const CONFIG = {
-  scriptURL: "https://script.google.com/macros/s/AKfycbxzSHIqzJJED92lcvLiiOeg1t08I7ypBvOeH4dRQqIWTk5BvswYFzPKztiQ4FoVGpDj/exec"
-};
-
-// ===============================
-// 🔥 CARREGAR JOGADORES
-// ===============================
-function carregarJogadores() {
-  const statusEl = document.getElementById('statusAPI');
-  statusEl.textContent = '⏳ Carregando atletas...';
-
-  fetch(CONFIG.scriptURL)
-    .then(res => res.text())
-    .then(text => {
-      const data = JSON.parse(text);
-
-      const select = document.getElementById('jogadores');
-      select.innerHTML = '<option value="">Selecione o atleta...</option>';
-
-      const lista = data.jogadoresPro || data;
-
-      lista.forEach(j => {
-        const opt = document.createElement('option');
-        opt.value = j.ID_Jogador || j.Nome;
-        opt.textContent = j.Nome;
-        select.appendChild(opt);
-      });
-
-      statusEl.textContent = '✅ Atletas carregados';
-    })
-    .catch(err => {
-      console.error(err);
-      statusEl.textContent = '❌ Erro ao conectar com API';
-    });
-}
-
-// ===============================
-// ⚽ PLACAR AUTOMÁTICO
-// ===============================
-function atualizarPlacar() {
-  const gm = parseInt(document.getElementById("golsMandante").value) || 0;
-  const gv = parseInt(document.getElementById("golsVisitante").value) || 0;
-
-  document.getElementById("placar").value = `${gm} x ${gv}`;
-
-  let resultado = "";
-  if (gm > gv) resultado = "Vitória";
-  else if (gm < gv) resultado = "Derrota";
-  else resultado = "Empate";
-
-  document.getElementById("resultado").value = resultado;
-}
-
-// eventos
-document.getElementById("golsMandante").addEventListener("input", atualizarPlacar);
-document.getElementById("golsVisitante").addEventListener("input", atualizarPlacar);
-
-// inicia
-carregarJogadores();
-
-</script>
+  carregarJogadores();
 
   // Atualiza nome adversário ao digitar
   document.getElementById('adversario').addEventListener('input', () => {
@@ -857,7 +763,7 @@ function resetForm() {
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = false;
-  btn.textContent = 'Registrar Ficha Técnica de Jogo';
+  btn.textContent = 'Registrar Relatório de Jogo';
 }
 </script>
 </body>
