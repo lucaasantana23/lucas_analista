@@ -29,8 +29,11 @@ const CONFIG = {
   /* Logo */
   logoBase64: "https://cdn-img.zerozero.pt/img/logos/equipas/3104_imgbank.png",
 
-  /* ⭐ URL do Google Apps Script */
+  /* ⭐ URL do Google Apps Script (envio de dados) */
   scriptURL: "https://script.google.com/macros/s/AKfycbxzSHIqzJJED92lcvLiiOeg1t08I7ypBvOeH4dRQqIWTk5BvswYFzPKztiQ4FoVGpDj/exec",
+
+  /* 📋 Planilha JOGADORES_PROFISSIONAL — endpoint nativo do Google (sem CORS) */
+  sheetsURL: "https://docs.google.com/spreadsheets/d/1flRN8W7mMrypwGo_IGSOC4Lh9yEEJ9ZnToku3iJpGmk/gviz/tq?tqx=out:json&gid=1186618238",
 };
 
 /* ═══════════════════════════════════════════════════════════════
@@ -264,7 +267,7 @@ const CONFIG = {
   .nota-scale .scale-btn[data-v="7"]  { background:#7ed957; color:#000; }
   .nota-scale .scale-btn[data-v="8"]  { background:#4CAF50; color:#fff; }
   .nota-scale .scale-btn[data-v="9"]  { background:#2e7d32; color:#fff; }
-  .nota-scale .scale-btn[data-v="10"] { background:#2e7d32; color:#fff; }
+  .nota-scale .scale-btn[data-v="10"] { background:#F5C000; color:#000; }
 
   .scale-value-display {
     text-align: center;
@@ -433,7 +436,6 @@ const CONFIG = {
             <option value="">Selecione...</option>
             <option value="Casa">Casa</option>
             <option value="Fora">Fora</option>
-            <option value=“Neutro”>Neutro</option>
           </select>
         </div>
         <div>
@@ -643,33 +645,57 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ──────────────────────────────────────────────
-   CARREGAR JOGADORES
+   CARREGAR JOGADORES — via Google Sheets gviz/tq
+   (endpoint nativo, sem proxy, sem CORS)
 ────────────────────────────────────────────── */
 function carregarJogadores() {
   const statusEl = document.getElementById('statusAPI');
   statusEl.textContent = '⏳ Carregando atletas...';
 
-  fetch(CONFIG.scriptURL)
-    .then(res => res.text())
-    .then(text => {
-      const data = JSON.parse(text);
+  fetch(CONFIG.sheetsURL)
+    .then(res => {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.text();
+    })
+    .then(raw => {
+      // O Google retorna: /*O_o*/google.visualization.Query.setResponse({...});
+      // Precisamos extrair só o JSON de dentro
+      const json = JSON.parse(raw.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);?\s*$/)[1]);
+
+      const cols = json.table.cols;   // [{label: "Nome", ...}, ...]
+      const rows = json.table.rows;   // [{c: [{v: "João"}, ...]}, ...]
+
+      // Encontra índice da coluna "Nome" (case-insensitive)
+      const colNome = cols.findIndex(c => c.label.toUpperCase().includes('NOME') || c.label.toUpperCase() === 'NAME');
+      const colID   = cols.findIndex(c => c.label.toUpperCase().includes('ID'));
+
+      if (colNome === -1) throw new Error('Coluna "Nome" não encontrada. Colunas disponíveis: ' + cols.map(c => c.label).join(', '));
+
       const select = document.getElementById('jogadores');
       select.innerHTML = '<option value="">Selecione o atleta...</option>';
 
-      const lista = data.jogadoresPro || data;
-      lista.forEach(j => {
+      let total = 0;
+      rows.forEach(row => {
+        const nomeCell = row.c?.[colNome];
+        const nome = nomeCell?.v?.toString().trim();
+        if (!nome) return;
+
+        const idCell = colID !== -1 ? row.c?.[colID] : null;
+        const id = idCell?.v?.toString().trim() || nome;
+
         const opt = document.createElement('option');
-        opt.value = j.ID_Jogador || j.id || j.nome || j.Nome;
-        opt.textContent = j.Nome || j.nome;
+        opt.value       = id;
+        opt.textContent = nome;
         select.appendChild(opt);
+        total++;
       });
 
-      statusEl.textContent = '✅ Atletas carregados';
-      setTimeout(() => statusEl.textContent = '', 3000);
+      statusEl.textContent = `✅ ${total} atletas carregados`;
+      setTimeout(() => statusEl.textContent = '', 4000);
     })
     .catch(err => {
       console.error('Erro ao carregar atletas:', err);
-      statusEl.textContent = '⚠️ Não foi possível carregar os atletas';
+      statusEl.textContent = '⚠️ Erro: ' + err.message;
     });
 }
 
