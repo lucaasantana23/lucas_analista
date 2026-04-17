@@ -658,8 +658,7 @@ function enviarRelatorio() {
     body: JSON.stringify({
       tipo: "partida",
       clube: "Teste",
-      categoria: "Profissional",
-      adversario: "Teste FC"
+      categoria: "Profissional"
     }),
     headers: {
       "Content-Type": "application/json"
@@ -670,7 +669,7 @@ function enviarRelatorio() {
     return res.text();
   })
   .then(res => console.log("RESPOSTA:", res))
-  .catch(err => console.error("ERRO:", err));
+  .catch(err => console.error("ERRO FETCH:", err));
 }
 </script>
 </body>
