@@ -598,8 +598,6 @@ async function submitForm() {
     placar:      `${gM} × ${gV}`,
     resultado:   res,
     observacoes: obs,
-
-enviarRelatorio(); // 👈 ESSA LINHA RESOLVE
   };
 
   for (let i = 0; i < atletasLista.length; i++) {
@@ -623,6 +621,8 @@ enviarRelatorio(); // 👈 ESSA LINHA RESOLVE
   document.getElementById('successScreen').classList.add('show');
   document.getElementById('successSub').textContent =
     `${adversario}  ${gM} × ${gV}\n${atletasLista.length} atleta(s) registrado(s)`;
+
+enviarRelatorio(); // 👈 ESSA LINHA RESOLVE
 }
 
 /* ─── RESET ─── */
