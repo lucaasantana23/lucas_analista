@@ -19,7 +19,7 @@ const CONFIG = {
   corFundo:      "#0d0d0d",
   corTexto:      "#F0F0F0",
   logoBase64:    "https://cdn-img.zerozero.pt/img/logos/equipas/3104_imgbank.png",
-  scriptURL:     "https://script.google.com/macros/s/AKfycbyoT6yif7KM5Txk5lZjI7LHrBDNAejoSZvovF_0nfjxNr77NIYE7ZseUx9ZEOrfDQOv/exec",
+  scriptURL:     "https://script.google.com/macros/s/AKfycbykduyIb5oMiVWV4efABQlFnmJd2n3r4cjlkup6ErxmaGOtC22bVWLznAawK5WYP6It/exec”,
   sheetsURL:     "https://docs.google.com/spreadsheets/d/1flRN8W7mMrypwGo_IGSOC4Lh9yEEJ9ZnToku3iJpGmk/gviz/tq?tqx=out:json&gid=1186618238",
 };
 </script>
@@ -131,7 +131,7 @@ const CONFIG = {
   .nota-scale .scale-btn[data-v="7"]{background:#7ed957;color:#000;}
   .nota-scale .scale-btn[data-v="8"]{background:#4CAF50;color:#fff;}
   .nota-scale .scale-btn[data-v="9"]{background:#2e7d32;color:#fff;}
-  .nota-scale .scale-btn[data-v="10"]{background:#2e7d32;color:#fff;}
+  .nota-scale .scale-btn[data-v="10"]{background:#F5C000;color:#000;}
   .nota-display{text-align:center;font-family:'Oswald',sans-serif;font-weight:700;font-size:36px;
     color:var(--muted);height:46px;line-height:46px;transition:color .2s;margin-bottom:8px;}
   .nota-display.has-value{color:var(--text);}
@@ -204,18 +204,6 @@ const CONFIG = {
 </head>
 <body>
 
-<body>
-
-<button onclick="teste()">TESTE CLIQUE</button>
-
-<script>
-function teste() {
-  console.log("FUNCIONOU");
-}
-</script>
-
-</body>
-
 <header>
   <div class="header-left">
     <img id="clubLogo" class="club-logo" src="" alt="Logo">
@@ -278,7 +266,6 @@ function teste() {
             <option value="">Selecione...</option>
             <option value="Casa">Casa</option>
             <option value="Fora">Fora</option>
-            <option value=“Neutro”>Neutro</option>
           </select>
         </div>
         <div>
@@ -579,45 +566,64 @@ async function submitForm() {
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
+  btn.textContent = 'Enviando...';
 
   const gM  = document.getElementById('golsMandante').value;
   const gV  = document.getElementById('golsVisitante').value;
   const res = document.getElementById('resultadoBadge').textContent.replace(/^[^\s]+ /,'');
   const obs = document.getElementById('observacoes').value;
-  const base = {
-    clube:       CONFIG.clube,
-    categoria:   CONFIG.categoria,
-    idPartida:   document.getElementById('idPartida').value,
-    data:        document.getElementById('dataPartida').value,
-    competicao:  document.getElementById('competicao').value,
-    fase:        document.getElementById('fase').value,
-    local:       document.getElementById('local').value,
-    adversario,
-    golsMandante: gM,
-    golsVisitante: gV,
-    placar:      `${gM} × ${gV}`,
-    resultado:   res,
-    observacoes: obs,
+  const ts  = new Date().toISOString();
 
-enviarRelatorio(); // 👈 ESSA LINHA RESOLVE
+  const dadosPartida = {
+    timestamp:     ts,
+    clube:         CONFIG.clube,
+    categoria:     CONFIG.categoria,
+    idPartida:     document.getElementById('idPartida').value,
+    data:          document.getElementById('dataPartida').value,
+    competicao:    document.getElementById('competicao').value,
+    fase:          document.getElementById('fase').value,
+    local:         document.getElementById('local').value,
+    adversario,
+    golsMandante:  gM,
+    golsVisitante: gV,
+    placar:        `${gM} × ${gV}`,
+    resultado:     res,
+    observacoes:   obs,
   };
 
+  // ── 1. Envia dados da partida → aba PARTIDAS ──
+  btn.textContent = 'Enviando partida...';
+  const fdPartida = new FormData();
+  fdPartida.append('tipo', 'partida');
+  Object.entries(dadosPartida).forEach(([k,v]) => fdPartida.append(k, v));
+  try { await fetch(CONFIG.scriptURL, { method:'POST', mode:'no-cors', body:fdPartida }); }
+  catch(e) { console.error('Erro ao enviar partida:', e); }
+
+  // ── 2. Envia um registro por atleta → aba ESCALACAO_MINUTAGEM ──
   for (let i = 0; i < atletasLista.length; i++) {
     const a = atletasLista[i];
-    btn.textContent = `Enviando ${i+1} / ${atletasLista.length}...`;
+    btn.textContent = `Enviando atletas ${i+1} / ${atletasLista.length}...`;
 
-    const fd = new FormData();
-    fd.append('timestamp', new Date().toISOString());
-    Object.entries(base).forEach(([k,v]) => fd.append(k, v));
-    fd.append('atleta',  a.nome);
-    fd.append('status',  a.status);
-    fd.append('minutos', a.minutos);
-    fd.append('nota',    String(a.nota));
+    const fdAtleta = new FormData();
+    fdAtleta.append('tipo',          'escalacao');
+    fdAtleta.append('timestamp',     ts);
+    fdAtleta.append('clube',         CONFIG.clube);
+    fdAtleta.append('categoria',     CONFIG.categoria);
+    fdAtleta.append('idPartida',     dadosPartida.idPartida);
+    fdAtleta.append('data',          dadosPartida.data);
+    fdAtleta.append('adversario',    adversario);
+    fdAtleta.append('placar',        dadosPartida.placar);
+    fdAtleta.append('resultado',     res);
+    fdAtleta.append('atleta',        a.nome);
+    fdAtleta.append('status',        a.status);
+    fdAtleta.append('minutos',       a.minutos);
+    fdAtleta.append('nota',          String(a.nota));
 
-    try { await fetch(CONFIG.scriptURL, { method:'POST', mode:'no-cors', body:fd }); }
-    catch(e) { console.error('Erro ' + a.nome, e); }
+    try { await fetch(CONFIG.scriptURL, { method:'POST', mode:'no-cors', body:fdAtleta }); }
+    catch(e) { console.error('Erro atleta ' + a.nome, e); }
   }
 
+  // ── 3. Tela de sucesso ──
   document.getElementById('formBody').style.display  = 'none';
   document.getElementById('submitBar').style.display = 'none';
   document.getElementById('successScreen').classList.add('show');
@@ -648,30 +654,6 @@ function resetForm() {
   document.getElementById('successScreen').classList.remove('show');
   const btn = document.getElementById('submitBtn');
   btn.disabled = false; btn.textContent = 'Registrar Relatório de Jogo';
-}
-</script>
-
-<script>
-function enviarRelatorio() {
-  console.log("INICIOU ENVIO");
-
-  fetch("https://script.google.com/macros/s/AKfycbyoT6yif7KM5Txk5lZjI7LHrBDNAejoSZvovF_0nfjxNr77NIYE7ZseUx9ZEOrfDQOv/exec", {
-    method: "POST",
-    body: JSON.stringify({
-      tipo: "partida",
-      clube: "Teste",
-      categoria: "Profissional"
-    }),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-  .then(res => {
-    console.log("STATUS:", res.status);
-    return res.text();
-  })
-  .then(res => console.log("RESPOSTA:", res))
-  .catch(err => console.error("ERRO FETCH:", err));
 }
 </script>
 </body>
