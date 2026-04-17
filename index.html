@@ -665,7 +665,10 @@ function enviarRelatorio() {
       "Content-Type": "application/json"
     }
   })
-  .then(res => res.text())
+  .then(res => {
+    console.log("STATUS:", res.status);
+    return res.text();
+  })
   .then(res => console.log("RESPOSTA:", res))
   .catch(err => console.error("ERRO:", err));
 }
