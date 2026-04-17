@@ -336,7 +336,6 @@ const CONFIG = {
             <option value="">Selecione...</option>
             <option value="Casa">Casa</option>
             <option value="Fora">Fora</option>
-            <option value=“Neutro”>Neutro</option>
           </select>
         </div>
         <div>
@@ -777,14 +776,12 @@ function selectAcao(btn) {
 function atualizarPlacar() {
   const gM = parseInt(document.getElementById('golsMandante').value) || 0;
   const gV = parseInt(document.getElementById('golsVisitante').value) || 0;
-  const local = document.getElementById('local').value;
   const badge = document.getElementById('resultadoBadge');
-  const nos  = local === 'Fora' ? gV : gM;
-  const eles = local === 'Fora' ? gM : gV;
+  // O lado esquerdo é sempre o Americano, independente de casa ou fora
   badge.className = 'resultado-badge';
-  if      (nos > eles)  { badge.textContent='✅ Vitória';  badge.classList.add('vitoria'); }
-  else if (nos === eles){ badge.textContent='🟡 Empate';   badge.classList.add('empate');  }
-  else                  { badge.textContent='❌ Derrota';  badge.classList.add('derrota'); }
+  if      (gM > gV)  { badge.textContent='✅ Vitória';  badge.classList.add('vitoria'); }
+  else if (gM === gV){ badge.textContent='🟡 Empate';   badge.classList.add('empate');  }
+  else               { badge.textContent='❌ Derrota';  badge.classList.add('derrota'); }
 }
 
 /* ─── CARREGAR JOGADORES ─── */
