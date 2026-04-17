@@ -21,6 +21,7 @@ const CONFIG = {
   logoBase64:    "https://cdn-img.zerozero.pt/img/logos/equipas/3104_imgbank.png",
   scriptURL:     "https://script.google.com/macros/s/AKfycbwtseaTObymLIvTiRAClD0bI8maen62T7RbgEGG8OCLU3LmCdUiWq7C1pAhVO6QpMRB/exec",
   sheetsURL:     "https://docs.google.com/spreadsheets/d/1flRN8W7mMrypwGo_IGSOC4Lh9yEEJ9ZnToku3iJpGmk/gviz/tq?tqx=out:json&gid=1186618238",
+  sheetsS20URL:  "https://docs.google.com/spreadsheets/d/1flRN8W7mMrypwGo_IGSOC4Lh9yEEJ9ZnToku3iJpGmk/gviz/tq?tqx=out:json&gid=1800988395",
 };
 </script>
 
@@ -236,6 +237,28 @@ const CONFIG = {
     color:var(--text);padding:11px 26px;border-radius:9px;cursor:pointer;transition:border-color .2s;}
   .new-btn:hover{border-color:var(--accent2);}
 
+  /* ── S20 TOGGLE ── */
+  .s20-toggle{
+    display:flex;align-items:center;gap:10px;
+    background:var(--surface2);border:1px solid var(--border);
+    border-radius:9px;padding:10px 14px;margin-bottom:14px;cursor:pointer;
+    transition:all .2s;user-select:none;
+  }
+  .s20-toggle:hover{border-color:var(--accent2);}
+  .s20-toggle.active{border-color:var(--accent2);background:rgba(245,192,0,.07);}
+  .s20-toggle-check{
+    width:20px;height:20px;border-radius:5px;border:2px solid var(--border);
+    background:var(--surface);flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    transition:all .15s;font-size:12px;
+  }
+  .s20-toggle.active .s20-toggle-check{background:var(--accent2);border-color:var(--accent2);color:#000;}
+  .s20-toggle-text{flex:1;min-width:0;}
+  .s20-toggle-label{font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;}
+  .s20-toggle-desc{font-size:11px;color:var(--muted);margin-top:2px;}
+  .s20-badge{font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;
+    text-transform:uppercase;background:rgba(245,192,0,.15);border:1px solid var(--accent2);
+    color:var(--accent2);padding:3px 8px;border-radius:20px;flex-shrink:0;}
+
   @media(max-width:480px){
     header{padding:12px 14px;}
     main{padding:22px 12px 0;}
@@ -313,6 +336,7 @@ const CONFIG = {
             <option value="">Selecione...</option>
             <option value="Casa">Casa</option>
             <option value="Fora">Fora</option>
+            <option value=“Neutro”>Neutro</option>
           </select>
         </div>
         <div>
@@ -355,6 +379,15 @@ const CONFIG = {
           <div class="card-label">Adicionar Atleta</div>
           <div class="card-desc">Selecione, preencha e clique em Adicionar à Lista</div>
         </div>
+      </div>
+
+      <div class="s20-toggle" id="s20Toggle" onclick="toggleS20()">
+        <div class="s20-toggle-check" id="s20Check"></div>
+        <div class="s20-toggle-text">
+          <div class="s20-toggle-label">Incluir Sub-20</div>
+          <div class="s20-toggle-desc">Adiciona os atletas da JOGADORES_S20 às listas</div>
+        </div>
+        <span class="s20-badge" id="s20BadgeCount" style="display:none"></span>
       </div>
 
       <div class="row2" style="margin-bottom:12px">
@@ -768,30 +801,105 @@ function carregarJogadores() {
       const ii = cols.findIndex(c => c.label.toUpperCase() === 'ID' || c.label.toUpperCase().startsWith('ID_'));
       if (ci === -1) throw new Error('Coluna Nome não encontrada. Colunas: ' + cols.map(c=>c.label).join(', '));
 
-      const opcoes = [{value:'', text:'Selecione o atleta...'}];
+      opcoesBase = [{ value: '', text: 'Selecione o atleta...' }];
       rows.forEach(row => {
         const nome = row.c?.[ci]?.v?.toString().trim();
         if (!nome) return;
         const id = (ii !== -1 ? row.c?.[ii]?.v?.toString().trim() : null) || nome;
-        opcoes.push({ value: id, text: nome });
+        opcoesBase.push({ value: id, text: nome });
       });
 
-      // Preenche ambos os selects (escalação e eventos)
-      ['jogadores','jogadoresEvento'].forEach(selId => {
-        const sel = document.getElementById(selId);
-        sel.innerHTML = '';
-        opcoes.forEach(o => {
-          const opt = document.createElement('option');
-          opt.value = o.value; opt.textContent = o.text;
-          sel.appendChild(opt);
-        });
-      });
-
-      const n = opcoes.length - 1;
+      aplicarOpcoes();
+      const n = opcoesBase.length - 1;
       st.textContent = `✅ ${n} atletas carregados`;
       setTimeout(() => st.textContent = '', 4000);
     })
     .catch(e => { console.error(e); st.textContent = '⚠️ Erro: ' + e.message; });
+}
+
+/* ─── S20 TOGGLE ─── */
+let s20Ativo    = false;
+let opcoesBase  = [];   // atletas do profissional
+let opcoesS20   = [];   // atletas do S20 (carregados sob demanda)
+let s20Carregado = false;
+
+function toggleS20() {
+  if (!s20Ativo && !s20Carregado) {
+    // Primeira vez: carrega a lista S20 e depois ativa
+    carregarS20(() => {
+      s20Ativo = true;
+      aplicarOpcoes();
+      atualizarToggleUI();
+    });
+  } else {
+    s20Ativo = !s20Ativo;
+    aplicarOpcoes();
+    atualizarToggleUI();
+  }
+}
+
+function atualizarToggleUI() {
+  const toggle = document.getElementById('s20Toggle');
+  const check  = document.getElementById('s20Check');
+  const badge  = document.getElementById('s20BadgeCount');
+  if (s20Ativo) {
+    toggle.classList.add('active');
+    check.textContent = '✓';
+    badge.style.display = 'inline';
+    badge.textContent   = opcoesS20.length + ' S20';
+  } else {
+    toggle.classList.remove('active');
+    check.textContent = '';
+    badge.style.display = 'none';
+  }
+}
+
+function carregarS20(callback) {
+  const st = document.getElementById('statusAPI');
+  st.textContent = '⏳ Carregando Sub-20...';
+
+  fetch(CONFIG.sheetsS20URL)
+    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+    .then(raw => {
+      const json = JSON.parse(raw.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);?\s*$/)[1]);
+      const cols = json.table.cols, rows = json.table.rows;
+      const ci = cols.findIndex(c => c.label.toUpperCase().includes('NOME') || c.label.toUpperCase() === 'NAME');
+      const ii = cols.findIndex(c => c.label.toUpperCase() === 'ID' || c.label.toUpperCase().startsWith('ID_'));
+      if (ci === -1) throw new Error('Coluna Nome não encontrada na aba S20.');
+
+      opcoesS20 = [];
+      rows.forEach(row => {
+        const nome = row.c?.[ci]?.v?.toString().trim();
+        if (!nome) return;
+        const id = (ii !== -1 ? row.c?.[ii]?.v?.toString().trim() : null) || nome;
+        opcoesS20.push({ value: id, text: nome + ' (S20)' });
+      });
+
+      s20Carregado = true;
+      st.textContent = `✅ ${opcoesS20.length} atletas Sub-20 carregados`;
+      setTimeout(() => st.textContent = '', 4000);
+      if (callback) callback();
+    })
+    .catch(e => { console.error(e); st.textContent = '⚠️ Erro S20: ' + e.message; });
+}
+
+function aplicarOpcoes() {
+  const todas = s20Ativo
+    ? [...opcoesBase, ...opcoesS20]
+    : [...opcoesBase];
+
+  ['jogadores','jogadoresEvento'].forEach(selId => {
+    const sel = document.getElementById(selId);
+    const valorAtual = sel.value;
+    sel.innerHTML = '';
+    todas.forEach(o => {
+      const opt = document.createElement('option');
+      opt.value = o.value; opt.textContent = o.text;
+      sel.appendChild(opt);
+    });
+    // Mantém seleção atual se ainda existir
+    if ([...sel.options].some(o => o.value === valorAtual)) sel.value = valorAtual;
+  });
 }
 
 /* ─── ADICIONAR ATLETA ─── */
@@ -989,6 +1097,7 @@ async function submitForm() {
 function resetForm() {
   atletasLista = []; eventosLista = [];
   selectedNota = selectedStatus = selectedAcao = null;
+  s20Ativo = false; atualizarToggleUI(); aplicarOpcoes();
   document.querySelectorAll('.scale-btn,.status-btn,.acao-btn').forEach(b => b.classList.remove('selected'));
   const d = document.getElementById('notaDisplay');
   d.textContent='—'; d.classList.remove('has-value');
