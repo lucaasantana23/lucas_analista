@@ -638,5 +638,25 @@ function resetForm() {
   btn.disabled = false; btn.textContent = 'Registrar Relatório de Jogo';
 }
 </script>
+
+<script>
+function enviarRelatorio() {
+console.log("CLIQUE OK");
+
+fetch("https://script.google.com/macros/s/AKfycbw9RnwLhIgXXWA0vNLYDNc7Hr5KBIrd5TGMBYaQj5ltgIYuuYS6AUawpqPy7dvhtZ5p/exec", {
+method: "POST",
+body: JSON.stringify({
+tipo: "partida",
+clube: "Teste"
+}),
+headers: {
+"Content-Type": "application/json"
+}
+})
+.then(res => res.text())
+.then(res => console.log("RESPOSTA:", res))
+.catch(err => console.error("ERRO:", err));
+}
+</script>
 </body>
 </html>
