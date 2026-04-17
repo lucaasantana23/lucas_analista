@@ -19,16 +19,16 @@ const CONFIG = {
   corFundo:      "#0d0d0d",
   corTexto:      "#F0F0F0",
   logoBase64:    "https://cdn-img.zerozero.pt/img/logos/equipas/3104_imgbank.png",
-  scriptURL:     "https://script.google.com/macros/s/AKfycbykduyIb5oMiVWV4efABQlFnmJd2n3r4cjlkup6ErxmaGOtC22bVWLznAawK5WYP6It/exec",
+  scriptURL:     "https://script.google.com/macros/s/AKfycbwtseaTObymLIvTiRAClD0bI8maen62T7RbgEGG8OCLU3LmCdUiWq7C1pAhVO6QpMRB/exec",
   sheetsURL:     "https://docs.google.com/spreadsheets/d/1flRN8W7mMrypwGo_IGSOC4Lh9yEEJ9ZnToku3iJpGmk/gviz/tq?tqx=out:json&gid=1186618238",
 };
 </script>
 
 <style>
-  :root {
-    --bg:#0d0d0d; --surface:#161616; --surface2:#1f1f1f;
-    --border:#2e2e2e; --accent:#CC0000; --accent2:#F5C000;
-    --text:#F0F0F0; --muted:#666;
+  :root{
+    --bg:#0d0d0d;--surface:#161616;--surface2:#1f1f1f;
+    --border:#2e2e2e;--accent:#CC0000;--accent2:#F5C000;
+    --text:#F0F0F0;--muted:#666;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{
@@ -39,7 +39,7 @@ const CONFIG = {
       radial-gradient(ellipse 35% 25% at 0% 100%,rgba(245,192,0,.05) 0%,transparent 50%);
   }
 
-  /* HEADER */
+  /* ── HEADER ── */
   header{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;
     border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;
     background:rgba(13,13,13,.88);backdrop-filter:blur(14px);gap:12px;}
@@ -52,14 +52,24 @@ const CONFIG = {
     text-transform:uppercase;padding:6px 14px;background:var(--surface);border:1px solid var(--border);
     border-radius:8px;color:var(--accent2);flex-shrink:0;}
 
-  /* LAYOUT */
+  /* ── LAYOUT ── */
   main{max-width:660px;margin:0 auto;padding:32px 16px 0;}
   .form-title{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(34px,7vw,52px);
     line-height:1;text-transform:uppercase;letter-spacing:-0.5px;margin-bottom:4px;}
   .form-title .accent{color:var(--accent2);}
   .form-subtitle{color:var(--muted);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:32px;}
 
-  /* CARD */
+  /* ── SECTION DIVIDER ── */
+  .section-divider{
+    display:flex;align-items:center;gap:12px;margin:8px 0 16px;
+  }
+  .section-divider-line{flex:1;height:1px;background:var(--border);}
+  .section-divider-label{
+    font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;
+    letter-spacing:2px;text-transform:uppercase;color:var(--muted);white-space:nowrap;
+  }
+
+  /* ── CARD ── */
   .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;
     margin-bottom:16px;position:relative;overflow:hidden;transition:border-color .25s;}
   .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
@@ -68,6 +78,10 @@ const CONFIG = {
   .card:focus-within::before{opacity:1;}
   .card.gold-accent::before{background:linear-gradient(90deg,transparent,var(--accent2),transparent);}
   .card.gold-accent:focus-within{border-color:rgba(245,192,0,.35);}
+  .card.red-accent::before{background:linear-gradient(90deg,transparent,#e63946,transparent);}
+  .card.red-accent:focus-within{border-color:rgba(230,57,70,.35);}
+  .card.blue-accent::before{background:linear-gradient(90deg,transparent,#3fa7dc,transparent);}
+  .card.blue-accent:focus-within{border-color:rgba(63,167,220,.35);}
 
   .card-header{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
   .card-icon{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;
@@ -75,9 +89,12 @@ const CONFIG = {
   .icon-gold{background:rgba(245,192,0,.12);}
   .icon-teal{background:rgba(0,180,130,.12);}
   .icon-gray{background:rgba(150,150,150,.1);}
+  .icon-red{background:rgba(204,0,0,.12);}
+  .icon-blue{background:rgba(63,167,220,.12);}
   .card-label{font-family:'Oswald',sans-serif;font-weight:600;font-size:16px;letter-spacing:.8px;text-transform:uppercase;}
   .card-desc{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4;}
 
+  /* ── FIELDS ── */
   .field-label{font-size:11px;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;display:block;}
   input[type="text"],input[type="date"],input[type="number"],textarea,select{
     width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:7px;
@@ -88,9 +105,11 @@ const CONFIG = {
   textarea{resize:vertical;min-height:76px;line-height:1.5;}
 
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+  .row4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;}
   .divider{height:1px;background:var(--border);margin:18px 0;}
 
-  /* PLACAR */
+  /* ── PLACAR ── */
   .placar-box{display:flex;align-items:center;justify-content:center;gap:16px;margin:16px 0 8px;}
   .placar-team{text-align:center;flex:1;}
   .placar-team-name{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
@@ -106,7 +125,7 @@ const CONFIG = {
   .resultado-badge.empate{background:rgba(245,192,0,.15);border-color:var(--accent2);color:var(--accent2);}
   .resultado-badge.derrota{background:rgba(204,0,0,.15);border-color:var(--accent);color:#ff6b6b;}
 
-  /* STATUS */
+  /* ── STATUS TAGS ── */
   .status-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
   .status-btn{padding:8px 6px;border:1px solid var(--border);border-radius:7px;background:var(--surface2);
     color:var(--muted);font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;
@@ -114,7 +133,23 @@ const CONFIG = {
   .status-btn:hover{border-color:var(--accent2);color:var(--text);}
   .status-btn.selected{border-color:var(--accent2);background:rgba(245,192,0,.12);color:var(--accent2);}
 
-  /* NOTA */
+  /* ── AÇÃO TAGS (eventos) ── */
+  .acao-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}
+  .acao-btn{padding:10px 6px;border:1px solid var(--border);border-radius:7px;background:var(--surface2);
+    color:var(--muted);font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;
+    text-align:center;cursor:pointer;transition:all .15s;line-height:1.3;}
+  .acao-btn .acao-icon{display:block;font-size:20px;margin-bottom:4px;}
+  .acao-btn:hover{color:var(--text);}
+  .acao-btn[data-acao="Gol"]:hover,
+  .acao-btn[data-acao="Gol"].selected{border-color:#7ed957;background:rgba(126,217,87,.12);color:#7ed957;}
+  .acao-btn[data-acao="Assistência"]:hover,
+  .acao-btn[data-acao="Assistência"].selected{border-color:#3fa7dc;background:rgba(63,167,220,.12);color:#3fa7dc;}
+  .acao-btn[data-acao="Cartão Amarelo"]:hover,
+  .acao-btn[data-acao="Cartão Amarelo"].selected{border-color:#F5C000;background:rgba(245,192,0,.12);color:#F5C000;}
+  .acao-btn[data-acao="Cartão Vermelho"]:hover,
+  .acao-btn[data-acao="Cartão Vermelho"].selected{border-color:#e63946;background:rgba(230,57,70,.12);color:#e63946;}
+
+  /* ── NOTA SCALE ── */
   .scale-track{display:flex;gap:5px;margin-bottom:10px;}
   .scale-btn{flex:1;aspect-ratio:1;border:1px solid var(--border);border-radius:7px;background:var(--surface2);
     color:var(--muted);font-family:'Oswald',sans-serif;font-weight:600;font-size:15px;cursor:pointer;
@@ -137,24 +172,25 @@ const CONFIG = {
   .nota-display.has-value{color:var(--text);}
   .scale-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);}
 
-  /* BOTÃO ADICIONAR */
+  /* ── BOTÕES ADICIONAR ── */
   .add-btn{width:100%;margin-top:20px;font-family:'Oswald',sans-serif;font-weight:600;font-size:14px;
     letter-spacing:1.5px;text-transform:uppercase;padding:12px;border-radius:9px;cursor:pointer;
     transition:all .2s;background:var(--surface2);border:1px dashed var(--accent2);color:var(--accent2);}
   .add-btn:hover{background:rgba(245,192,0,.1);}
 
-  /* LISTA */
-  .atletas-lista{display:flex;flex-direction:column;gap:8px;}
-  .atleta-row{display:flex;align-items:center;gap:10px;background:var(--surface2);
+  /* ── LISTAS (atletas / eventos) ── */
+  .list-container{display:flex;flex-direction:column;gap:8px;}
+  .list-row{display:flex;align-items:center;gap:10px;background:var(--surface2);
     border:1px solid var(--border);border-radius:9px;padding:10px 14px;
     animation:slideIn .2s ease;}
   @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
-  .atleta-info{flex:1;min-width:0;}
-  .atleta-nome{font-family:'Oswald',sans-serif;font-weight:600;font-size:14px;
+  .list-info{flex:1;min-width:0;}
+  .list-nome{font-family:'Oswald',sans-serif;font-weight:600;font-size:14px;
     letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .atleta-meta{font-size:11px;color:var(--muted);margin-top:2px;}
-  .nota-badge{font-family:'Oswald',sans-serif;font-weight:700;font-size:18px;width:36px;height:36px;
-    border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .list-meta{font-size:11px;color:var(--muted);margin-top:2px;}
+  .list-badge{font-family:'Oswald',sans-serif;font-weight:700;font-size:16px;
+    min-width:36px;height:36px;border-radius:7px;padding:0 8px;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;white-space:nowrap;}
   .remove-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;
     padding:4px;border-radius:5px;transition:color .15s;flex-shrink:0;}
   .remove-btn:hover{color:var(--accent);}
@@ -164,9 +200,18 @@ const CONFIG = {
     background:var(--accent2);color:#000;font-family:'Oswald',sans-serif;font-weight:700;
     font-size:12px;width:22px;height:22px;border-radius:50%;margin-left:8px;vertical-align:middle;}
 
+  /* ── STATS GRID ── */
+  .stats-group-label{
+    font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;
+    letter-spacing:1.5px;text-transform:uppercase;color:var(--accent2);
+    margin:18px 0 10px;display:flex;align-items:center;gap:8px;
+  }
+  .stats-group-label::after{content:'';flex:1;height:1px;background:rgba(245,192,0,.2);}
+  .stat-field{display:flex;flex-direction:column;}
+
   .api-status{margin-top:10px;font-size:12px;color:var(--muted);}
 
-  /* SUBMIT BAR */
+  /* ── SUBMIT BAR ── */
   .submit-bar{position:fixed;bottom:0;left:0;right:0;padding:14px 16px;
     background:rgba(13,13,13,.92);backdrop-filter:blur(14px);
     border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;z-index:200;}
@@ -177,7 +222,7 @@ const CONFIG = {
   .submit-btn:active{transform:translateY(0);}
   .submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
 
-  /* SUCCESS */
+  /* ── SUCCESS ── */
   .success-screen{display:none;flex-direction:column;align-items:center;justify-content:center;
     text-align:center;padding:80px 20px;min-height:60vh;}
   .success-screen.show{display:flex;}
@@ -195,8 +240,9 @@ const CONFIG = {
     header{padding:12px 14px;}
     main{padding:22px 12px 0;}
     .card{padding:18px 14px;}
-    .row2{grid-template-columns:1fr;}
+    .row2,.row3,.row4{grid-template-columns:1fr 1fr;}
     .status-grid{grid-template-columns:repeat(2,1fr);}
+    .acao-grid{grid-template-columns:repeat(2,1fr);}
     .scale-btn{font-size:13px;}
     .placar-gol{font-size:30px;}
   }
@@ -209,14 +255,13 @@ const CONFIG = {
     <img id="clubLogo" class="club-logo" src="" alt="Logo">
     <div>
       <div class="club-name" id="clubName"></div>
-      <div class="club-cat" id="clubCat"></div>
+      <div class="club-cat"  id="clubCat"></div>
     </div>
   </div>
   <div class="header-badge">Relatório de Jogo</div>
 </header>
 
 <main>
-
   <!-- SUCCESS -->
   <div class="success-screen" id="successScreen">
     <div class="success-icon">✅</div>
@@ -229,13 +274,15 @@ const CONFIG = {
     <div class="form-title">Relatório<br><span class="accent">de Jogo</span></div>
     <p class="form-subtitle">Preencha ao final da partida</p>
 
-    <!-- ══ 1. PARTIDA ══ -->
+    <!-- ══════════════════════════════════════════════
+         BLOCO 1 — INFORMAÇÕES DA PARTIDA
+    ══════════════════════════════════════════════ -->
     <div class="card gold-accent">
       <div class="card-header">
         <div class="card-icon icon-gold">📋</div>
         <div>
           <div class="card-label">Informações da Partida</div>
-          <div class="card-desc">Preenchido uma vez — vale para todos os atletas</div>
+          <div class="card-desc">Preenchido uma vez — vale para todos os registros</div>
         </div>
       </div>
 
@@ -292,7 +339,15 @@ const CONFIG = {
       </div>
     </div>
 
-    <!-- ══ 2. ADICIONAR ATLETA ══ -->
+    <!-- ══════════════════════════════════════════════
+         BLOCO 2 — ESCALAÇÃO & MINUTAGEM
+    ══════════════════════════════════════════════ -->
+    <div class="section-divider">
+      <div class="section-divider-line"></div>
+      <div class="section-divider-label">👥 Escalação & Minutagem</div>
+      <div class="section-divider-line"></div>
+    </div>
+
     <div class="card">
       <div class="card-header">
         <div class="card-icon icon-teal">➕</div>
@@ -326,24 +381,255 @@ const CONFIG = {
       <div class="api-status" id="statusAPI"></div>
     </div>
 
-    <!-- ══ 3. LISTA ══ -->
     <div class="card">
       <div class="card-header">
         <div class="card-icon icon-gray">👥</div>
         <div>
           <div class="card-label">
             Atletas Adicionados
-            <span class="count-badge" id="countBadge">0</span>
+            <span class="count-badge" id="countAtletas">0</span>
           </div>
           <div class="card-desc">Revise antes de enviar — clique ✕ para remover</div>
         </div>
       </div>
-      <div class="atletas-lista" id="atletasLista">
-        <div class="lista-vazia" id="listaVazia">Nenhum atleta adicionado ainda</div>
+      <div class="list-container" id="atletasLista">
+        <div class="lista-vazia" id="listaVaziaAtletas">Nenhum atleta adicionado ainda</div>
       </div>
     </div>
 
-    <!-- ══ 4. OBSERVAÇÕES ══ -->
+    <!-- ══════════════════════════════════════════════
+         BLOCO 3 — EVENTOS DE JOGO (GOLS)
+    ══════════════════════════════════════════════ -->
+    <div class="section-divider">
+      <div class="section-divider-line"></div>
+      <div class="section-divider-label">⚽ Eventos de Jogo</div>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <div class="card blue-accent">
+      <div class="card-header">
+        <div class="card-icon icon-blue">⚽</div>
+        <div>
+          <div class="card-label">Adicionar Evento</div>
+          <div class="card-desc">Gol, assistência ou cartão — registre cada evento individualmente</div>
+        </div>
+      </div>
+
+      <div class="row2" style="margin-bottom:16px">
+        <div>
+          <label class="field-label">Atleta</label>
+          <select id="jogadoresEvento"><option value="">Selecione o atleta...</option></select>
+        </div>
+        <div>
+          <label class="field-label">Minuto do Evento</label>
+          <input type="number" id="minutoEvento" placeholder="Ex: 45" min="1" max="120">
+        </div>
+      </div>
+
+      <label class="field-label" style="margin-bottom:10px">Ação</label>
+      <div class="acao-grid" id="acaoGrid">
+        <button class="acao-btn" data-acao="Gol" onclick="selectAcao(this)">
+          <span class="acao-icon">⚽</span>Gol
+        </button>
+        <button class="acao-btn" data-acao="Assistência" onclick="selectAcao(this)">
+          <span class="acao-icon">🅰️</span>Assistência
+        </button>
+        <button class="acao-btn" data-acao="Cartão Amarelo" onclick="selectAcao(this)">
+          <span class="acao-icon">🟨</span>Cartão Amarelo
+        </button>
+        <button class="acao-btn" data-acao="Cartão Vermelho" onclick="selectAcao(this)">
+          <span class="acao-icon">🟥</span>Cartão Vermelho
+        </button>
+      </div>
+
+      <button class="add-btn" onclick="adicionarEvento()">+ Adicionar Evento</button>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon icon-blue">📋</div>
+        <div>
+          <div class="card-label">
+            Eventos Registrados
+            <span class="count-badge" id="countEventos">0</span>
+          </div>
+          <div class="card-desc">Revise antes de enviar — clique ✕ para remover</div>
+        </div>
+      </div>
+      <div class="list-container" id="eventosLista">
+        <div class="lista-vazia" id="listaVaziaEventos">Nenhum evento registrado ainda</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         BLOCO 4 — ESTATÍSTICAS COLETIVAS
+    ══════════════════════════════════════════════ -->
+    <div class="section-divider">
+      <div class="section-divider-line"></div>
+      <div class="section-divider-label">📊 Estatísticas Coletivas</div>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon icon-gold">📊</div>
+        <div>
+          <div class="card-label">Estatísticas da Partida</div>
+          <div class="card-desc">Dados coletivos do time — enviados para ESTATISTICAS_COLETIVAS</div>
+        </div>
+      </div>
+
+      <!-- Posse -->
+      <div class="stats-group-label">Posse de Bola</div>
+      <div class="row2">
+        <div class="stat-field">
+          <label class="field-label">Posse (%)</label>
+          <input type="number" id="st_posse" min="0" max="100" placeholder="Ex: 55">
+        </div>
+      </div>
+
+      <!-- Finalizações -->
+      <div class="stats-group-label">Finalizações</div>
+      <div class="row2">
+        <div class="stat-field">
+          <label class="field-label">Finalizações</label>
+          <input type="number" id="st_fin" min="0" placeholder="0">
+        </div>
+        <div class="stat-field">
+          <label class="field-label">No Gol</label>
+          <input type="number" id="st_fin_gol" min="0" placeholder="0">
+        </div>
+      </div>
+      <div class="row2" style="margin-top:8px">
+        <div class="stat-field">
+          <label class="field-label">Finalizações ADV</label>
+          <input type="number" id="st_fin_adv" min="0" placeholder="0">
+        </div>
+        <div class="stat-field">
+          <label class="field-label">No Gol ADV</label>
+          <input type="number" id="st_fin_gol_adv" min="0" placeholder="0">
+        </div>
+      </div>
+
+      <!-- Gols -->
+      <div class="stats-group-label">Gols</div>
+      <div class="row2">
+        <div class="stat-field">
+          <label class="field-label">Gols Feitos</label>
+          <input type="number" id="st_gols_feitos" min="0" placeholder="0">
+        </div>
+        <div class="stat-field">
+          <label class="field-label">Gols Sofridos</label>
+          <input type="number" id="st_gols_sofridos" min="0" placeholder="0">
+        </div>
+      </div>
+
+      <!-- Escanteios & Faltas -->
+      <div class="stats-group-label">Escanteios & Faltas</div>
+      <div class="row2">
+        <div class="stat-field">
+          <label class="field-label">Escanteios OFE</label>
+          <input type="number" id="st_esc_ofe" min="0" placeholder="0">
+        </div>
+        <div class="stat-field">
+          <label class="field-label">Faltas OFE</label>
+          <input type="number" id="st_fal_ofe" min="0" placeholder="0">
+        </div>
+      </div>
+      <div class="row2" style="margin-top:8px">
+        <div class="stat-field">
+          <label class="field-label">Escanteios DEF</label>
+          <input type="number" id="st_esc_def" min="0" placeholder="0">
+        </div>
+        <div class="stat-field">
+          <label class="field-label">Faltas DEF</label>
+          <input type="number" id="st_fal_def" min="0" placeholder="0">
+        </div>
+      </div>
+
+      <!-- Cruzamentos & Desarmes -->
+      <div class="stats-group-label">Cruzamentos & Desarmes</div>
+      <div class="row2">
+        <div class="stat-field">
+          <label class="field-label">Cruzamentos</label>
+          <input type="number" id="st_cruz" min="0" placeholder="0">
+        </div>
+        <div class="stat-field">
+          <label class="field-label">Cruzamentos ADV</label>
+          <input type="number" id="st_cruz_adv" min="0" placeholder="0">
+        </div>
+      </div>
+      <div class="row2" style="margin-top:8px">
+        <div class="stat-field">
+          <label class="field-label">Desarmes</label>
+          <input type="number" id="st_des" min="0" placeholder="0">
+        </div>
+        <div class="stat-field">
+          <label class="field-label">Desarmes ADV</label>
+          <input type="number" id="st_des_adv" min="0" placeholder="0">
+        </div>
+      </div>
+
+      <!-- Quebra de Pressão -->
+      <div class="stats-group-label">Quebra de Pressão</div>
+      <div class="row2">
+        <div class="stat-field">
+          <label class="field-label">Quebra de Pressão</label>
+          <input type="number" id="st_qp" min="0" placeholder="0">
+        </div>
+        <div class="stat-field">
+          <label class="field-label">Quebra de Pressão ADV</label>
+          <input type="number" id="st_qp_adv" min="0" placeholder="0">
+        </div>
+      </div>
+
+      <!-- Chegadas -->
+      <div class="stats-group-label">Chegadas Ofensivas</div>
+      <div class="row2" style="margin-bottom:8px">
+        <div class="stat-field">
+          <label class="field-label">Chegadas (Total)</label>
+          <input type="number" id="st_cheg" min="0" placeholder="0">
+        </div>
+      </div>
+      <div class="row3">
+        <div class="stat-field">
+          <label class="field-label">ESQ</label>
+          <input type="number" id="st_cheg_esq" min="0" placeholder="0">
+        </div>
+        <div class="stat-field">
+          <label class="field-label">MEIO</label>
+          <input type="number" id="st_cheg_meio" min="0" placeholder="0">
+        </div>
+        <div class="stat-field">
+          <label class="field-label">DIR</label>
+          <input type="number" id="st_cheg_dir" min="0" placeholder="0">
+        </div>
+      </div>
+
+      <div class="stats-group-label">Chegadas Adversário</div>
+      <div class="row2" style="margin-bottom:8px">
+        <div class="stat-field">
+          <label class="field-label">Chegadas ADV (Total)</label>
+          <input type="number" id="st_cheg_adv" min="0" placeholder="0">
+        </div>
+      </div>
+      <div class="row3">
+        <div class="stat-field">
+          <label class="field-label">ESQ</label>
+          <input type="number" id="st_cheg_adv_esq" min="0" placeholder="0">
+        </div>
+        <div class="stat-field">
+          <label class="field-label">MEIO</label>
+          <input type="number" id="st_cheg_adv_meio" min="0" placeholder="0">
+        </div>
+        <div class="stat-field">
+          <label class="field-label">DIR</label>
+          <input type="number" id="st_cheg_adv_dir" min="0" placeholder="0">
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ OBSERVAÇÕES ══ -->
     <div class="card">
       <div class="card-header">
         <div class="card-icon icon-gray">📝</div>
@@ -355,7 +641,7 @@ const CONFIG = {
       <textarea id="observacoes" placeholder="Comentários táticos, desempenho coletivo, pontos a melhorar..."></textarea>
     </div>
 
-  </div>
+  </div><!-- /formBody -->
 </main>
 
 <div class="submit-bar" id="submitBar">
@@ -368,7 +654,9 @@ const CONFIG = {
 /* ─── STATE ─── */
 let selectedNota   = null;
 let selectedStatus = null;
+let selectedAcao   = null;
 let atletasLista   = [];
+let eventosLista   = [];
 
 const statusOptions = [
   'Titular','Reserva','Não Relacionado',
@@ -380,7 +668,14 @@ const notaBg = {
   0:'#555',1:'#e63946',2:'#e63946',3:'#ee964b',4:'#ee964b',
   5:'#f4d35e',6:'#f4d35e',7:'#7ed957',8:'#4CAF50',9:'#2e7d32',10:'#F5C000'
 };
-const notaFg = { 5:'#000',6:'#000',7:'#000',10:'#000' };
+const notaFg = {5:'#000',6:'#000',7:'#000',10:'#000'};
+
+const acaoCfg = {
+  'Gol':            {icon:'⚽', bg:'rgba(126,217,87,.15)',  border:'#7ed957', color:'#7ed957'},
+  'Assistência':    {icon:'🅰️', bg:'rgba(63,167,220,.15)',  border:'#3fa7dc', color:'#3fa7dc'},
+  'Cartão Amarelo': {icon:'🟨', bg:'rgba(245,192,0,.15)',   border:'#F5C000', color:'#F5C000'},
+  'Cartão Vermelho':{icon:'🟥', bg:'rgba(230,57,70,.15)',   border:'#e63946', color:'#e63946'},
+};
 
 /* ─── INIT ─── */
 document.addEventListener('DOMContentLoaded', () => {
@@ -408,7 +703,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('local').addEventListener('change', atualizarPlacar);
 });
 
-/* ─── ESCALA NOTA ─── */
+/* ─── NOTA SCALE ─── */
 function buildNotaScale() {
   const el = document.getElementById('notaScale');
   for (let i = 0; i <= 10; i++) {
@@ -416,8 +711,7 @@ function buildNotaScale() {
     btn.className = 'scale-btn'; btn.dataset.v = i; btn.textContent = i;
     btn.onclick = () => {
       el.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      selectedNota = i;
+      btn.classList.add('selected'); selectedNota = i;
       const d = document.getElementById('notaDisplay');
       d.textContent = i; d.classList.add('has-value');
     };
@@ -433,25 +727,31 @@ function buildStatusGrid() {
     btn.className = 'status-btn'; btn.textContent = s;
     btn.onclick = () => {
       grid.querySelectorAll('.status-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      selectedStatus = s;
+      btn.classList.add('selected'); selectedStatus = s;
     };
     grid.appendChild(btn);
   });
 }
 
+/* ─── AÇÃO SELECT ─── */
+function selectAcao(btn) {
+  document.querySelectorAll('.acao-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedAcao = btn.dataset.acao;
+}
+
 /* ─── PLACAR ─── */
 function atualizarPlacar() {
-  const gM    = parseInt(document.getElementById('golsMandante').value) || 0;
-  const gV    = parseInt(document.getElementById('golsVisitante').value) || 0;
+  const gM = parseInt(document.getElementById('golsMandante').value) || 0;
+  const gV = parseInt(document.getElementById('golsVisitante').value) || 0;
   const local = document.getElementById('local').value;
   const badge = document.getElementById('resultadoBadge');
-  const nos   = local === 'Fora' ? gV : gM;
-  const eles  = local === 'Fora' ? gM : gV;
+  const nos  = local === 'Fora' ? gV : gM;
+  const eles = local === 'Fora' ? gM : gV;
   badge.className = 'resultado-badge';
-  if      (nos > eles)  { badge.textContent = '✅ Vitória';  badge.classList.add('vitoria'); }
-  else if (nos === eles){ badge.textContent = '🟡 Empate';   badge.classList.add('empate');  }
-  else                  { badge.textContent = '❌ Derrota';  badge.classList.add('derrota'); }
+  if      (nos > eles)  { badge.textContent='✅ Vitória';  badge.classList.add('vitoria'); }
+  else if (nos === eles){ badge.textContent='🟡 Empate';   badge.classList.add('empate');  }
+  else                  { badge.textContent='❌ Derrota';  badge.classList.add('derrota'); }
 }
 
 /* ─── CARREGAR JOGADORES ─── */
@@ -463,26 +763,31 @@ function carregarJogadores() {
     .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
     .then(raw => {
       const json = JSON.parse(raw.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);?\s*$/)[1]);
-      const cols = json.table.cols;
-      const rows = json.table.rows;
-
+      const cols = json.table.cols, rows = json.table.rows;
       const ci = cols.findIndex(c => c.label.toUpperCase().includes('NOME') || c.label.toUpperCase() === 'NAME');
       const ii = cols.findIndex(c => c.label.toUpperCase() === 'ID' || c.label.toUpperCase().startsWith('ID_'));
       if (ci === -1) throw new Error('Coluna Nome não encontrada. Colunas: ' + cols.map(c=>c.label).join(', '));
 
-      const sel = document.getElementById('jogadores');
-      sel.innerHTML = '<option value="">Selecione o atleta...</option>';
-
-      let n = 0;
+      const opcoes = [{value:'', text:'Selecione o atleta...'}];
       rows.forEach(row => {
         const nome = row.c?.[ci]?.v?.toString().trim();
         if (!nome) return;
         const id = (ii !== -1 ? row.c?.[ii]?.v?.toString().trim() : null) || nome;
-        const o = document.createElement('option');
-        o.value = id; o.textContent = nome;
-        sel.appendChild(o); n++;
+        opcoes.push({ value: id, text: nome });
       });
 
+      // Preenche ambos os selects (escalação e eventos)
+      ['jogadores','jogadoresEvento'].forEach(selId => {
+        const sel = document.getElementById(selId);
+        sel.innerHTML = '';
+        opcoes.forEach(o => {
+          const opt = document.createElement('option');
+          opt.value = o.value; opt.textContent = o.text;
+          sel.appendChild(opt);
+        });
+      });
+
+      const n = opcoes.length - 1;
       st.textContent = `✅ ${n} atletas carregados`;
       setTimeout(() => st.textContent = '', 4000);
     })
@@ -493,61 +798,46 @@ function carregarJogadores() {
 function adicionarAtleta() {
   const sel  = document.getElementById('jogadores');
   const nome = sel.options[sel.selectedIndex]?.text || '';
-  if (!nome || nome === 'Selecione o atleta...' || nome === 'Carregando...') {
-    alert('Selecione um atleta.'); return;
-  }
+  if (!nome || nome === 'Selecione o atleta...') { alert('Selecione um atleta.'); return; }
   if (!selectedStatus) { alert('Selecione o status do atleta.'); return; }
 
   if (atletasLista.find(a => a.nome === nome)) {
     if (!confirm(`${nome} já está na lista. Substituir?`)) return;
     atletasLista = atletasLista.filter(a => a.nome !== nome);
   }
-
   atletasLista.push({
-    nome,
-    id:      sel.value,
-    status:  selectedStatus,
+    nome, id: sel.value, status: selectedStatus,
     minutos: document.getElementById('minutos').value || '',
-    nota:    selectedNota !== null ? selectedNota : '',
+    nota: selectedNota !== null ? selectedNota : '',
   });
-
-  renderLista();
+  renderAtletas();
   limparCamposAtleta();
 }
 
-/* ─── RENDERIZAR LISTA ─── */
-function renderLista() {
+function renderAtletas() {
   const container = document.getElementById('atletasLista');
-  document.getElementById('countBadge').textContent = atletasLista.length;
-  container.querySelectorAll('.atleta-row').forEach(r => r.remove());
-
-  const vazia = document.getElementById('listaVazia');
-  if (atletasLista.length === 0) { vazia.style.display = 'block'; return; }
+  document.getElementById('countAtletas').textContent = atletasLista.length;
+  container.querySelectorAll('.list-row').forEach(r => r.remove());
+  const vazia = document.getElementById('listaVaziaAtletas');
+  if (atletasLista.length === 0) { vazia.style.display='block'; return; }
   vazia.style.display = 'none';
 
   atletasLista.forEach((a, idx) => {
-    const row = document.createElement('div');
-    row.className = 'atleta-row';
+    const row = document.createElement('div'); row.className = 'list-row';
     const notaNum = a.nota !== '' ? Number(a.nota) : null;
     const bg = notaNum !== null ? notaBg[notaNum] : '#333';
-    const fg = notaNum !== null ? (notaFg[notaNum] || '#fff') : '#888';
-    const notaLabel = notaNum !== null ? notaNum : '–';
-    const minLabel  = a.minutos ? a.minutos + ' min' : '— min';
+    const fg = notaNum !== null ? (notaFg[notaNum]||'#fff') : '#888';
     row.innerHTML = `
-      <div class="nota-badge" style="background:${bg};color:${fg}">${notaLabel}</div>
-      <div class="atleta-info">
-        <div class="atleta-nome">${a.nome}</div>
-        <div class="atleta-meta">${a.status} · ${minLabel}</div>
+      <div class="list-badge" style="background:${bg};color:${fg}">${notaNum !== null ? notaNum : '–'}</div>
+      <div class="list-info">
+        <div class="list-nome">${a.nome}</div>
+        <div class="list-meta">${a.status} · ${a.minutos ? a.minutos+' min' : '— min'}</div>
       </div>
-      <button class="remove-btn" onclick="removerAtleta(${idx})" title="Remover">✕</button>
-    `;
+      <button class="remove-btn" onclick="atletasLista.splice(${idx},1);renderAtletas()" title="Remover">✕</button>`;
     container.appendChild(row);
   });
 }
 
-function removerAtleta(idx) { atletasLista.splice(idx, 1); renderLista(); }
-
-/* ─── LIMPAR CAMPOS ATLETA ─── */
 function limparCamposAtleta() {
   selectedNota = selectedStatus = null;
   document.getElementById('jogadores').value = '';
@@ -555,7 +845,50 @@ function limparCamposAtleta() {
   document.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
   document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('selected'));
   const d = document.getElementById('notaDisplay');
-  d.textContent = '—'; d.classList.remove('has-value');
+  d.textContent='—'; d.classList.remove('has-value');
+}
+
+/* ─── ADICIONAR EVENTO ─── */
+function adicionarEvento() {
+  const sel   = document.getElementById('jogadoresEvento');
+  const nome  = sel.options[sel.selectedIndex]?.text || '';
+  const minuto = document.getElementById('minutoEvento').value;
+  if (!nome || nome === 'Selecione o atleta...') { alert('Selecione o atleta do evento.'); return; }
+  if (!selectedAcao) { alert('Selecione a ação (Gol, Assistência ou Cartão).'); return; }
+  if (!minuto) { alert('Informe o minuto do evento.'); return; }
+
+  eventosLista.push({ nome, id: sel.value, acao: selectedAcao, minuto });
+  renderEventos();
+  limparCamposEvento();
+}
+
+function renderEventos() {
+  const container = document.getElementById('eventosLista');
+  document.getElementById('countEventos').textContent = eventosLista.length;
+  container.querySelectorAll('.list-row').forEach(r => r.remove());
+  const vazia = document.getElementById('listaVaziaEventos');
+  if (eventosLista.length === 0) { vazia.style.display='block'; return; }
+  vazia.style.display = 'none';
+
+  eventosLista.forEach((e, idx) => {
+    const cfg = acaoCfg[e.acao] || {icon:'?',bg:'#333',border:'#666',color:'#fff'};
+    const row = document.createElement('div'); row.className = 'list-row';
+    row.innerHTML = `
+      <div class="list-badge" style="background:${cfg.bg};border:1px solid ${cfg.border};color:${cfg.color}">${cfg.icon}</div>
+      <div class="list-info">
+        <div class="list-nome">${e.nome}</div>
+        <div class="list-meta">${e.acao} · ${e.minuto}'</div>
+      </div>
+      <button class="remove-btn" onclick="eventosLista.splice(${idx},1);renderEventos()" title="Remover">✕</button>`;
+    container.appendChild(row);
+  });
+}
+
+function limparCamposEvento() {
+  selectedAcao = null;
+  document.getElementById('jogadoresEvento').value = '';
+  document.getElementById('minutoEvento').value    = '';
+  document.querySelectorAll('.acao-btn').forEach(b => b.classList.remove('selected'));
 }
 
 /* ─── SUBMIT ─── */
@@ -566,89 +899,122 @@ async function submitForm() {
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
-  btn.textContent = 'Enviando...';
 
   const gM  = document.getElementById('golsMandante').value;
   const gV  = document.getElementById('golsVisitante').value;
   const res = document.getElementById('resultadoBadge').textContent.replace(/^[^\s]+ /,'');
   const obs = document.getElementById('observacoes').value;
   const ts  = new Date().toISOString();
+  const id  = document.getElementById('idPartida').value;
+  const data = document.getElementById('dataPartida').value;
+  const placar = `${gM} × ${gV}`;
 
-  const dadosPartida = {
-    timestamp:     ts,
-    clube:         CONFIG.clube,
-    categoria:     CONFIG.categoria,
-    idPartida:     document.getElementById('idPartida').value,
-    data:          document.getElementById('dataPartida').value,
-    competicao:    document.getElementById('competicao').value,
-    fase:          document.getElementById('fase').value,
-    local:         document.getElementById('local').value,
-    adversario,
-    golsMandante:  gM,
-    golsVisitante: gV,
-    placar:        `${gM} × ${gV}`,
-    resultado:     res,
-    observacoes:   obs,
+  const basePartida = {
+    timestamp: ts, clube: CONFIG.clube, categoria: CONFIG.categoria,
+    idPartida: id, data, competicao: document.getElementById('competicao').value,
+    fase: document.getElementById('fase').value, local: document.getElementById('local').value,
+    adversario, golsMandante: gM, golsVisitante: gV, placar, resultado: res, observacoes: obs,
+  };
+  const baseComum = { timestamp: ts, clube: CONFIG.clube, categoria: CONFIG.categoria,
+    idPartida: id, data, adversario, placar, resultado: res };
+
+  const post = async (tipo, dados) => {
+    const fd = new FormData();
+    fd.append('tipo', tipo);
+    Object.entries(dados).forEach(([k,v]) => fd.append(k, v));
+    try { await fetch(CONFIG.scriptURL, { method:'POST', mode:'no-cors', body: fd }); }
+    catch(e) { console.error('Erro POST '+tipo, e); }
   };
 
-  // ── 1. Envia dados da partida → aba PARTIDAS ──
+  // 1 — Partida
   btn.textContent = 'Enviando partida...';
-  const fdPartida = new FormData();
-  fdPartida.append('tipo', 'partida');
-  Object.entries(dadosPartida).forEach(([k,v]) => fdPartida.append(k, v));
-  try { await fetch(CONFIG.scriptURL, { method:'POST', mode:'no-cors', body:fdPartida }); }
-  catch(e) { console.error('Erro ao enviar partida:', e); }
+  await post('partida', basePartida);
 
-  // ── 2. Envia um registro por atleta → aba ESCALACAO_MINUTAGEM ──
+  // 2 — Escalação (um por atleta)
   for (let i = 0; i < atletasLista.length; i++) {
+    btn.textContent = `Escalação ${i+1}/${atletasLista.length}...`;
     const a = atletasLista[i];
-    btn.textContent = `Enviando atletas ${i+1} / ${atletasLista.length}...`;
-
-    const fdAtleta = new FormData();
-    fdAtleta.append('tipo',          'escalacao');
-    fdAtleta.append('timestamp',     ts);
-    fdAtleta.append('clube',         CONFIG.clube);
-    fdAtleta.append('categoria',     CONFIG.categoria);
-    fdAtleta.append('idPartida',     dadosPartida.idPartida);
-    fdAtleta.append('data',          dadosPartida.data);
-    fdAtleta.append('adversario',    adversario);
-    fdAtleta.append('placar',        dadosPartida.placar);
-    fdAtleta.append('resultado',     res);
-    fdAtleta.append('atleta',        a.nome);
-    fdAtleta.append('status',        a.status);
-    fdAtleta.append('minutos',       a.minutos);
-    fdAtleta.append('nota',          String(a.nota));
-
-    try { await fetch(CONFIG.scriptURL, { method:'POST', mode:'no-cors', body:fdAtleta }); }
-    catch(e) { console.error('Erro atleta ' + a.nome, e); }
+    await post('escalacao', { ...baseComum, atleta: a.nome, status: a.status, minutos: a.minutos, nota: String(a.nota) });
   }
 
-  // ── 3. Tela de sucesso ──
+  // 3 — Eventos / Gols (um por evento)
+  for (let i = 0; i < eventosLista.length; i++) {
+    btn.textContent = `Eventos ${i+1}/${eventosLista.length}...`;
+    const e = eventosLista[i];
+    await post('gol', { ...baseComum, atleta: e.nome, acao: e.acao, minuto: e.minuto });
+  }
+
+  // 4 — Estatísticas coletivas (uma linha)
+  btn.textContent = 'Enviando estatísticas...';
+  const v = id => document.getElementById(id)?.value || '';
+  await post('estatisticas', {
+    ...baseComum,
+    posse:             v('st_posse'),
+    finalizacoes:      v('st_fin'),
+    finalizacoes_gol:  v('st_fin_gol'),
+    finalizacoes_adv:  v('st_fin_adv'),
+    finalizacoes_gol_adv: v('st_fin_gol_adv'),
+    gols_feitos:       v('st_gols_feitos'),
+    gols_sofridos:     v('st_gols_sofridos'),
+    escanteios_ofe:    v('st_esc_ofe'),
+    faltas_ofe:        v('st_fal_ofe'),
+    escanteios_def:    v('st_esc_def'),
+    faltas_def:        v('st_fal_def'),
+    cruzamentos:       v('st_cruz'),
+    cruzamentos_adv:   v('st_cruz_adv'),
+    desarmes:          v('st_des'),
+    desarmes_adv:      v('st_des_adv'),
+    quebra_pressao:    v('st_qp'),
+    quebra_pressao_adv:v('st_qp_adv'),
+    chegadas:          v('st_cheg'),
+    chegadas_esq:      v('st_cheg_esq'),
+    chegadas_meio:     v('st_cheg_meio'),
+    chegadas_dir:      v('st_cheg_dir'),
+    chegadas_adv:      v('st_cheg_adv'),
+    chegadas_adv_esq:  v('st_cheg_adv_esq'),
+    chegadas_adv_meio: v('st_cheg_adv_meio'),
+    chegadas_adv_dir:  v('st_cheg_adv_dir'),
+  });
+
+  // Sucesso
   document.getElementById('formBody').style.display  = 'none';
   document.getElementById('submitBar').style.display = 'none';
   document.getElementById('successScreen').classList.add('show');
   document.getElementById('successSub').textContent =
-    `${adversario}  ${gM} × ${gV}\n${atletasLista.length} atleta(s) registrado(s)`;
+    `${adversario}  ${placar}  ·  ${res}\n` +
+    `${atletasLista.length} atleta(s)  ·  ${eventosLista.length} evento(s)  ·  estatísticas enviadas`;
 }
 
 /* ─── RESET ─── */
 function resetForm() {
-  atletasLista = []; selectedNota = selectedStatus = null;
-  document.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
-  document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('selected'));
+  atletasLista = []; eventosLista = [];
+  selectedNota = selectedStatus = selectedAcao = null;
+  document.querySelectorAll('.scale-btn,.status-btn,.acao-btn').forEach(b => b.classList.remove('selected'));
   const d = document.getElementById('notaDisplay');
-  d.textContent = '—'; d.classList.remove('has-value');
-  ['idPartida','adversario','competicao','fase','minutos','observacoes']
-    .forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+  d.textContent='—'; d.classList.remove('has-value');
+
+  ['idPartida','adversario','competicao','fase','minutos','observacoes',
+   'minutoEvento',
+   'st_posse','st_fin','st_fin_gol','st_fin_adv','st_fin_gol_adv',
+   'st_gols_feitos','st_gols_sofridos',
+   'st_esc_ofe','st_fal_ofe','st_esc_def','st_fal_def',
+   'st_cruz','st_cruz_adv','st_des','st_des_adv','st_qp','st_qp_adv',
+   'st_cheg','st_cheg_esq','st_cheg_meio','st_cheg_dir',
+   'st_cheg_adv','st_cheg_adv_esq','st_cheg_adv_meio','st_cheg_adv_dir'
+  ].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+
   document.getElementById('local').value            = '';
   document.getElementById('golsMandante').value     = '0';
   document.getElementById('golsVisitante').value    = '0';
   document.getElementById('jogadores').value        = '';
+  document.getElementById('jogadoresEvento').value  = '';
   document.getElementById('nomeAdversario').textContent = 'Adversário';
   document.getElementById('resultadoBadge').className  = 'resultado-badge';
   document.getElementById('resultadoBadge').textContent = '—';
   document.getElementById('dataPartida').value = new Date().toISOString().split('T')[0];
-  renderLista();
+
+  renderAtletas(); renderEventos();
+
   document.getElementById('formBody').style.display  = 'block';
   document.getElementById('submitBar').style.display = 'flex';
   document.getElementById('successScreen').classList.remove('show');
